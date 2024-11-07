@@ -19,7 +19,7 @@ const app = express()
 
 app.use(cors(
     {
-        origin: 'https://omibreed-dep-be.onrender.com',
+        origin: 'https://omibreed-dep-fe.onrender.com',
         credentials: true,
         methods: 'GET, POST, PUT, DELETE, OPTIONS',
     }
