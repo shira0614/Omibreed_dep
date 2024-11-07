@@ -21,7 +21,7 @@ import Badge from '@mui/material/Badge';
 import {badgeAnalyses} from "../utils/analysisUtils.js";
 import {AnalysisContext} from "./context/AnalysisContetx.jsx";
 
-const BASE_URL = 'http://localhost:3000/api/'
+const BASE_URL = 'https://omibreed-dep-be.onrender.com/api/'
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;

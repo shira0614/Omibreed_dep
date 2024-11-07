@@ -10,7 +10,7 @@ import {useContext, useState} from "react";
 import { AnalysisContext } from "./context/AnalysisContetx.jsx";
 import axios from "axios";
 
-const BASE_URL = 'http://localhost:3000/api/'
+const BASE_URL = 'https://omibreed-dep-be.onrender.com/api/'
 
 export default function AcceptDialog({ isOpen, setOpen, id, protocolId }) {
     const { analysisList, setAnalysisList } = useContext(AnalysisContext);

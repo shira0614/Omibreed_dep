@@ -15,7 +15,7 @@ import { useState } from 'react'
 import axios from "axios";
 import PasswordErrorAlert from './PasswordErrorAlert';
 
-const baseURL = 'http://localhost:3000'
+const baseURL = 'https://omibreed-dep-be.onrender.com'
 
 export default function Login() {
     const navigate = useNavigate();

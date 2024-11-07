@@ -12,7 +12,7 @@ import {useContext, useState} from "react";
 import axios from "axios";
 import {SingleTreeContext} from "./context/TreeContext.jsx";
 
-const BASE_URL = 'http://localhost:3000/api/'
+const BASE_URL = 'https://omibreed-dep-be.onrender.com/api/'
 
 export default function AddReplicaDialogue({isOpen, setOpen, treeId}) {
     const {replicas, setReplicas} = useContext(SingleTreeContext)
