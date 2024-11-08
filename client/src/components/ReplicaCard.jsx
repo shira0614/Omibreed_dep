@@ -8,6 +8,7 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import AddAnalysisDialogue from "./AddAnalysisDialogue.jsx";
 import {useState} from "react";
+import logo from "../assets/logo.svg";
 
 export default function ReplicaCard(props) {
     const [open, setOpen] = useState(false);
@@ -45,9 +46,13 @@ export default function ReplicaCard(props) {
                         alt="plant image"
                         sx={{ display: 'flex', width: 200, flex: '0 1', alignItems: 'flex-end' }}
                         image = {props.image}
-                    /> : <Box className='leaf-mini' sx={{
-                        minWidth: 200, minHeight: '100%', backgroundPosition: '-10px 11px'
-                    }}/>
+                    /> : <CardMedia
+                    component="img"
+                    alt="logo"
+                    objectFit='contain'
+                    sx={{ width: 200, height: 200 }}
+                image = {logo}
+                    />
                 }
             </Card>
         </>
