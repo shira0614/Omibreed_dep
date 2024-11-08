@@ -80,8 +80,8 @@ export function HomeAnalysisCard(props) {
                                 </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button variant='contained' onClick={handleOpenUpload} sx={{ color: '#2E644A' }}>Compila</Button>
-                            <Button variant='text' onClick={handleOpenDiscard} sx={{ color: '#d32727'}}>Annulla accettazione</Button>
+                            <Button variant='contained' onClick={handleOpenUpload} sx={{ backgroundColor: '#2E644A' }}>Compila</Button>
+                            <Button variant='text' onClick={handleOpenDiscard} sx={{ color: '#d32727'}}>Ritira</Button>
                             <ExpandMore
                                 expand={expanded}
                                 onClick={handleExpandClick}
