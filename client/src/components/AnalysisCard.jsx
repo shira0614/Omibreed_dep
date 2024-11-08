@@ -184,7 +184,7 @@ export function NewAnalysisCard(props) {
                         component="img"
                         alt="logo"
                         objectFit='contain'
-                        sx={{ width: 250, height: 250, ml: 3 }}
+                        sx={{ width: 200, height: 200, ml: 3 }}
                         image = {logo}
                     />
                 }
@@ -248,7 +248,7 @@ export function ColtAnalysisCard(props) {
                     component="img"
                     alt="logo"
                     objectFit='contain'
-                    sx={{ width: 250, height: 250, ml: 3 }}
+                    sx={{ width: 200, height: 200, ml: 3 }}
                     image = {logo}
                 />
             }
@@ -354,7 +354,7 @@ export function CompletedAnalysis(props) {
                     component="img"
                     alt="logo"
                     objectFit='contain'
-                    sx={{ width: 250, height: 250, ml: 3 }}
+                    sx={{ width: 200, height: 200, ml: 3 }}
                     image = {logo}
                 />
             }
