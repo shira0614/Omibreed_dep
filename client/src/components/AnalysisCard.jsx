@@ -21,10 +21,10 @@ import Badge from '@mui/material/Badge';
 import {badgeAnalyses} from "../utils/analysisUtils.js";
 import {AnalysisContext} from "./context/AnalysisContetx.jsx";
 import DiscardDialogue from "./DiscardDialogue.jsx";
-
+import logo from '../assets/logo.png';
 
 const BASE_URL = 'https://omibreed-dep-be.onrender.com/api/'
-const logo = '/assets/logo.svg'
+
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -82,7 +82,7 @@ export function HomeAnalysisCard(props) {
                                 </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button variant='contained' onClick={handleOpenUpload} color='forest'>Compila</Button>
+                            <Button variant='contained' onClick={handleOpenUpload} color='forest' sx={{ color: '#ffffff'}}>Compila</Button>
                             <Button variant='text' onClick={handleOpenDiscard} sx={{ color: '#d32727'}}>Ritira</Button>
                             <ExpandMore
                                 expand={expanded}
