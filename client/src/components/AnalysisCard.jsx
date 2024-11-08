@@ -22,7 +22,9 @@ import {badgeAnalyses} from "../utils/analysisUtils.js";
 import {AnalysisContext} from "./context/AnalysisContetx.jsx";
 import DiscardDialogue from "./DiscardDialogue.jsx";
 
+
 const BASE_URL = 'https://omibreed-dep-be.onrender.com/api/'
+const logo = '/assets/logo.svg'
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -80,7 +82,7 @@ export function HomeAnalysisCard(props) {
                                 </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button variant='contained' onClick={handleOpenUpload} sx={{ backgroundColor: '#2E644A' }}>Compila</Button>
+                            <Button variant='contained' onClick={handleOpenUpload} color='forest'>Compila</Button>
                             <Button variant='text' onClick={handleOpenDiscard} sx={{ color: '#d32727'}}>Ritira</Button>
                             <ExpandMore
                                 expand={expanded}
@@ -111,9 +113,12 @@ export function HomeAnalysisCard(props) {
                                 objectFit='contain'
                                 sx={{ display: 'flex', width: 250, flex: '0 1', alignItems: 'flex-end', ml: 3 }}
                                 image = {props.analysis.imageUrl}
-                            /> : <Box className='leaf-mini' sx={{
-                                minWidth: 250, minHeight: '100%', ml: 3
-                            }}/>
+                            /> : <CardMedia
+                                component="img"
+                                alt="logo"
+                                objectFit='contain'
+                                image = {logo}
+                            />
                         }
                 </Card>
         </>
