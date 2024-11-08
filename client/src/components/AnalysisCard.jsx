@@ -117,6 +117,7 @@ export function HomeAnalysisCard(props) {
                                 component="img"
                                 alt="logo"
                                 objectFit='contain'
+                                sx={{ width: 250, height: 250 }}
                                 image = {logo}
                             />
                         }
