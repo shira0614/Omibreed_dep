@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo.svg";
 
 
 export default function TreeCard(props) {
@@ -44,9 +45,13 @@ export default function TreeCard(props) {
                     objectFit='contain'
                     sx={{ display: 'flex', width: 250, flex: '0 1', alignItems: 'flex-end' }}
                     image = {props.image}
-                /> : <Box className='leaf-mini' sx={{
-                    minWidth: 250, minHeight: '100%'
-                }}/>
+                /> : <CardMedia
+                    component="img"
+                    alt="logo"
+                    objectFit='contain'
+                    sx={{ width: 250, height: 250 }}
+                    image = {logo}
+                />
             }
         </Card>
     );

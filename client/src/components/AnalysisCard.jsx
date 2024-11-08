@@ -117,7 +117,7 @@ export function HomeAnalysisCard(props) {
                                 component="img"
                                 alt="logo"
                                 objectFit='contain'
-                                sx={{ width: 250, height: 250 }}
+                                sx={{ width: 250, height: 250, ml: 3 }}
                                 image = {logo}
                             />
                         }
@@ -180,9 +180,13 @@ export function NewAnalysisCard(props) {
                         objectFit='contain'
                         sx={{ display: 'flex', width: 250, flex: '0 1', alignItems: 'flex-end', ml: 3 }}
                         image = {props.image}
-                    /> : <Box className='leaf-mini' sx={{
-                        minWidth: 250, minHeight: '100%', ml: 3
-                    }}/>
+                    /> : <CardMedia
+                        component="img"
+                        alt="logo"
+                        objectFit='contain'
+                        sx={{ width: 250, height: 250, ml: 3 }}
+                        image = {logo}
+                    />
                 }
             </Card>
         </>
@@ -240,9 +244,13 @@ export function ColtAnalysisCard(props) {
                     objectFit='contain'
                     sx={{ display: 'flex', width: 200, flex: '0 1', alignItems: 'flex-end', ml: 2 }}
                     image = {props.analysis.imageUrl}
-                /> : <Box className='leaf-mini'sx={{
-                    minWidth: 200, minHeight: '100%', backgroundPosition: '20px 0'
-                }}/>
+                /> : <CardMedia
+                    component="img"
+                    alt="logo"
+                    objectFit='contain'
+                    sx={{ width: 250, height: 250, ml: 3 }}
+                    image = {logo}
+                />
             }
         </Card>
     )
@@ -342,9 +350,13 @@ export function CompletedAnalysis(props) {
                     objectFit='contain'
                     sx={{ display: 'flex', width: 200, flex: '0 1', alignItems: 'flex-end', ml: 5 }}
                     image = {props.analysis.imageUrl}
-                /> : <Box className='leaf-mini'sx={{
-                    minWidth: 200, minHeight: '100%', backgroundPosition: '20px 0', ml: 5
-                }}/>
+                /> : <CardMedia
+                    component="img"
+                    alt="logo"
+                    objectFit='contain'
+                    sx={{ width: 250, height: 250, ml: 3 }}
+                    image = {logo}
+                />
             }
         </Card>
     )
