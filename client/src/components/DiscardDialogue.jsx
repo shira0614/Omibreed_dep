@@ -53,7 +53,7 @@ export default function DiscardDialogue({ isOpen, setOpen, id}) {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Procedendo, l`&apos`analisi verrà ritirata e sarà possibile visualizzarla nuovamente nella sezione Richieste.
+                    Procedendo, l&apos;analisi verrà ritirata e sarà possibile visualizzarla nuovamente nella sezione Richieste.
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

@@ -114,7 +114,7 @@ export default function AddTreeDialogue(props) {
                             <CloseIcon/>
                         </IconButton>
                         <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                            Nuovo albero
+                            Nuova coltura
                         </Typography>
                         <Button autoFocus color="inherit" onClick={handleSubmit}>
                             Aggiungi
