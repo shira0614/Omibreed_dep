@@ -20,6 +20,7 @@ import axios from 'axios';
 import Badge from '@mui/material/Badge';
 import {badgeAnalyses} from "../utils/analysisUtils.js";
 import {AnalysisContext} from "./context/AnalysisContetx.jsx";
+import DiscardDialogue from "./DiscardDialogue.jsx";
 
 const BASE_URL = 'https://omibreed-dep-be.onrender.com/api/'
 
@@ -44,15 +45,18 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 export function HomeAnalysisCard(props) {
     const [expanded, setExpanded] = useState(false);
     const [openUpload, setOpenUpload] = useState(false)
+    const [openDiscard, setOpenDiscard] = useState(false)
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
       };
 
     const handleOpenUpload = () => { setOpenUpload(true) }
+    const handleOpenDiscard = () => { setOpenDiscard(true) }
     return (
         <>
             <CompleteDialogue setOpen={setOpenUpload} isOpen={openUpload} analysis={props.analysis}/>
+            <DiscardDialogue setOpen={setOpenDiscard} isOpen={openDiscard} id={props.analysis._id}/>
                 <Card sx={{
                     display: 'flex',
                     border: '3px solid',
@@ -76,7 +80,8 @@ export function HomeAnalysisCard(props) {
                                 </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button onClick={handleOpenUpload} sx={{ color: '#2E644A' }}>Compila</Button>
+                            <Button variant='contained' onClick={handleOpenUpload} sx={{ color: '#2E644A' }}>Compila</Button>
+                            <Button variant='text' onClick={handleOpenDiscard} sx={{ color: '#d32727'}}>Annulla accettazione</Button>
                             <ExpandMore
                                 expand={expanded}
                                 onClick={handleExpandClick}
