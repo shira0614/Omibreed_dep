@@ -21,7 +21,7 @@ import Badge from '@mui/material/Badge';
 import {badgeAnalyses} from "../utils/analysisUtils.js";
 import {AnalysisContext} from "./context/AnalysisContetx.jsx";
 import DiscardDialogue from "./DiscardDialogue.jsx";
-import logo from '../assets/logo.png';
+import logo from '../assets/logo.svg';
 
 const BASE_URL = 'https://omibreed-dep-be.onrender.com/api/'
 
