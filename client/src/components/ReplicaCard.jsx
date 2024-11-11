@@ -50,7 +50,7 @@ export default function ReplicaCard(props) {
                     component="img"
                     alt="logo"
                     objectFit='contain'
-                    sx={{ width: 200, height: 200, m: 2 }}
+                    sx={{ width: 200, height: 200, m: 1 }}
                 image = {logo}
                     />
                 }

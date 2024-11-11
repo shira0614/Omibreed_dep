@@ -49,7 +49,7 @@ export default function TreeCard(props) {
                     component="img"
                     alt="logo"
                     objectFit='contain'
-                    sx={{ width: 200, height: 200 }}
+                    sx={{ width: 200, height: 200, m: 2 }}
                     image = {logo}
                 />
             }

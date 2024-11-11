@@ -66,11 +66,11 @@ const userInfo = async (req, res) => {
     try {
         const user = await User.findById(req.userId);
         if (!user) {
-            throw new Error('User not found');
+            return res.status(404).json({ success: false, message: 'User not found' });
         }
         const token = req.cookies.token;
         if(!token) {
-            throw new Error('Token not found');
+            return res.status(403).json({ success: false, message: 'No token provided' });
         }
         res.status(200).json({
             success: true,

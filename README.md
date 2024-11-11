@@ -5,7 +5,7 @@ La piattaforma Omibreed presenta funzionalità diverse a seconda del ruolo dell'
 Di seguito sono elencate le funzionalità disponibili per ciascun ruolo.
 
 ## Utente non autenticato
-Se l'utente non è autenticato, verrà portato alla schermata di Login, dove potrà inseire username e password per accedere al proprio account. La registrazione di nuovi utenti è permessa solo all'amministratore di sistema.
+Se l'utente non è autenticato, verrà portato alla schermata di Login, dove potrà inserire username e password per accedere al proprio account. La registrazione di nuovi utenti è permessa solo all'amministratore di sistema.
 
 ## Utente Coltivatore
 L'utente con ruolo Coltivatore ha accesso alle sezioni "Colture" e "Analisi".
