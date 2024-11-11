@@ -5,7 +5,7 @@ const { checkSuperRole } = require("../middleware/checkRole");
 const verifyToken = require('../middleware/verifytoken.js');
 
 router.post('/login', authUser);
-router.post('/logout', verifyToken, logoutUser);
+router.post('/logout', logoutUser);
 router.post('/signup', checkSuperRole, createUser);
 router.get('/info', verifyToken, userInfo);
 
