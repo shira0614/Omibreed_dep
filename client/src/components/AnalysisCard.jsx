@@ -23,7 +23,7 @@ import {AnalysisContext} from "./context/AnalysisContetx.jsx";
 import DiscardDialogue from "./DiscardDialogue.jsx";
 import logo from '../assets/logo.svg';
 
-const BASE_URL = 'https://omibreed-dep-be.onrender.com/api/'
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 
 const ExpandMore = styled((props) => {

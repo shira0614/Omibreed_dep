@@ -10,7 +10,6 @@ import {useContext, useState} from "react";
 import { AnalysisContext } from "./context/AnalysisContetx.jsx";
 import axios from "axios";
 
-const BASE_URL = 'https://omibreed-dep-be.onrender.com/api/'
 
 export default function DiscardDialogue({ isOpen, setOpen, id}) {
     const { analysisList, setAnalysisList } = useContext(AnalysisContext);

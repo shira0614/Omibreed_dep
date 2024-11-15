@@ -23,6 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
-backend/config.env
+backend/.env
+client/.env
 backend/controllers/uploads
 uploads

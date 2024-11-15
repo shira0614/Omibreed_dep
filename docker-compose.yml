@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    env_file:
+      - backend/.env   # Specify the path to your custom env file
+    environment:
+      - ATLAS_URI=${ATLAS_URI} # This references the ATLAS_URI from the env_file
+
+
+  frontend:
+    build: .
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

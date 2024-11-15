@@ -17,7 +17,7 @@ import SuccessAlert from "./SuccessAlert.jsx";
 import axios from 'axios';
 import { AlertContext } from "./context/AlertContext.jsx";
 
-const BASE_URL = 'https://omibreed-dep-be.onrender.com/api/'
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function CompleteDialogue({ isOpen, setOpen, ...props }) {
     const { analysisList, setAnalysisList } = useContext(AnalysisContext);

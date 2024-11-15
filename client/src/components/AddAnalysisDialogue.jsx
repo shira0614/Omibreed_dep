@@ -16,7 +16,7 @@ import TextField from "@mui/material/TextField";
 import SuccessAlert from "./SuccessAlert.jsx";
 import FailAlert from "./FailAlert.jsx";
 
-const BASE_URL = 'https://omibreed-dep-be.onrender.com/api/'
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;

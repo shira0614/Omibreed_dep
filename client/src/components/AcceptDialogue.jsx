@@ -10,7 +10,7 @@ import {useContext, useState} from "react";
 import { AnalysisContext } from "./context/AnalysisContetx.jsx";
 import axios from "axios";
 
-const BASE_URL = 'https://omibreed-dep-be.onrender.com/api/'
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function AcceptDialog({ isOpen, setOpen, id, protocolId }) {
     const { analysisList, setAnalysisList } = useContext(AnalysisContext);
