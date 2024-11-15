@@ -42,7 +42,7 @@ export default function AddReplicaDialogue({isOpen, setOpen, treeId}) {
             }
         }
 
-        axios.post(`${BASE_URL}trees/newReplica`, body, {
+        axios.post(`${BASE_URL}/trees/newReplica`, body, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'multipart/form-data'

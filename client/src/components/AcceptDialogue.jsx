@@ -45,7 +45,7 @@ export default function AcceptDialog({ isOpen, setOpen, id, protocolId }) {
 
     const handleDownload = async () => {
         try {
-            const response = await axios.get(`${BASE_URL}analysis/download/${id}`, {
+            const response = await axios.get(`${BASE_URL}/analysis/download/${id}`, {
                 responseType: 'blob',
                 withCredentials: true
             });

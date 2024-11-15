@@ -25,7 +25,7 @@ export default function Login() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        axios.post(`${baseURL}api/user/login`, {
+        axios.post(`${baseURL}/api/user/login`, {
             username: data.get('username'),
             password: data.get('password'),
         }, {

@@ -262,7 +262,7 @@ export function CompletedAnalysis(props) {
 
     const handleDownload = async () => {
         try {
-            const response = await axios.get(`${BASE_URL}analysis/download/${props.analysis._id}`, {
+            const response = await axios.get(`${BASE_URL}/analysis/download/${props.analysis._id}`, {
                 responseType: 'blob',
                 withCredentials: true
             });
