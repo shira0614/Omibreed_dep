@@ -65,7 +65,7 @@ export default function AddAnalysisDialogue(props) {
                 }
             }
 
-            axios.post(`${BASE_URL}/analysis/newAnalysis`, body, {
+            axios.post(`${BASE_URL}/api/analysis/newAnalysis`, body, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'multipart/form-data'

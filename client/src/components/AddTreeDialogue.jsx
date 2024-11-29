@@ -70,7 +70,7 @@ export default function AddTreeDialogue(props) {
             }
         }
 
-        axios.post(`${BASE_URL}/trees/addTree`, data, {
+        axios.post(`${BASE_URL}/api/trees/addTree`, data, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'multipart/form-data'

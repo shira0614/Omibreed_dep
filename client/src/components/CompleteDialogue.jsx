@@ -43,7 +43,7 @@ export default function CompleteDialogue({ isOpen, setOpen, ...props }) {
             }
         }
 
-        axios.post(`${BASE_URL}/analysis/updateAnalysis`, data, {
+        axios.post(`${BASE_URL}/api/analysis/updateAnalysis`, data, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'multipart/form-data'
