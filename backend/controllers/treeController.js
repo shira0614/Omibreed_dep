@@ -11,15 +11,9 @@ module.exports = {
         console.log('Request body:', req.body);
 
         const local_tree = {
-            cultivar: req.body.cultivar,
+            ...req.body,
             owner: req.userId,
-            specieNomeComune: req.body.specieNomeComune,
-            specieNomeScientifico: req.body.specieNomeScientifico,
-            sottospecie: req.body.sottospecie,
-            inoculated: req.body.inoculated,
-            infectionType: req.body.infectionType,
             timestamp: req.body.timestamp ? req.body.timestamp : new Date(),
-            notes: req.body.notes,
             lastReplicaId: 0
         }
 

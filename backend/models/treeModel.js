@@ -563,6 +563,55 @@ const treeSchema = new mongoose.Schema({
 	foundingInstitution: String,
 	// Genetic identification using SSRs (reference or original name)
 	geneticIdentificationSSRs: String,
+	// Plant collection metadata
+	plantCollectionName: String,
+	plantPositionInCollection: String,
+	growthEnvironment: {
+		type: String,
+		enum: ['Experimental facility', 'Greenhouse', 'Open field']
+	},
+	// Geospatial and location details
+	latitude: {
+		type: Number,
+		min: -90,
+		max: 90
+	},
+	longitude: {
+		type: Number,
+		min: -180,
+		max: 180
+	},
+	country: String,
+	region: String,
+	province: String,
+	city: String,
+	row: String,
+	positionInRow: String,
+	// Demarcated area (only meaningful when growthEnvironment is Open field)
+	demarcatedArea: {
+		type: String,
+		enum: ['Xf-free zone', 'Xf-infected area', 'Xf-buffer area']
+	},
+	// Field planting metadata
+	yearOfPlanting: Number,
+	ancientPlant: Boolean,
+	agronomicManagementPractice: {
+		type: String,
+		enum: ['Auto-rooted', 'Grafted', 'Cultivated in vitro', 'Propagated by seed', 'Potted plant', 'Field plant']
+	},
+	// Xf exposure and inoculation metadata
+	typeOfExpositionToXfInfection: {
+		type: String,
+		enum: ['Natural', 'Artificial']
+	},
+	typeOfInoculation: {
+		type: String,
+		enum: ['Xf inoculated', 'Mock inoculated'],
+		required: false
+	},
+	// Controlled conditions (only meaningful when growthEnvironment is Experimental facility or Greenhouse)
+	controlledFacilityName: String,
+	propagationYear: Number,
 	// Genotyping and resources
 	geneticIdentificationSNPs: Boolean,
 	geneticMapAvailable: Boolean,
@@ -638,6 +687,24 @@ treeSchema.pre('save', async function(next) {
             this.parent2 = undefined
         }
 
+        // Controlled conditions fields only if growthEnvironment is Experimental facility or Greenhouse
+        const isControlled = this.growthEnvironment === 'Experimental facility' || this.growthEnvironment === 'Greenhouse'
+        if (!isControlled) {
+            this.controlledFacilityName = undefined
+            this.propagationYear = undefined
+        }
+
+        // Demarcated area only if Open field
+        const isOpenField = this.growthEnvironment === 'Open field'
+        if (!isOpenField) {
+            this.demarcatedArea = undefined
+        }
+
+        // Inoculation details only when exposition is Artificial
+        if (this.typeOfExpositionToXfInfection !== 'Artificial') {
+            this.typeOfInoculation = undefined
+        }
+
         if (this.isNew || this.isModified('cultivar') || this.isModified('seedlingId') || this.isModified('bacterialTitreCq') || this.isModified('diagnosticStatus') || this.isModified('cultivarOrSeedling')) {
 
             if (!this.diagnosticStatus) {
@@ -658,7 +725,8 @@ treeSchema.pre('save', async function(next) {
             }
 
             const idCode = this.cultivarCode || this.seedlingId || 'SEED'
-            this.treeUniqueId = `${idCode}_${this.diagnosticStatus}_${this.incrementalNumber}`
+            const plantId = this.plantPositionInCollection || this.supplierPlantId || 'PLANT'
+            this.treeUniqueId = `${idCode}_${plantId}_${this.incrementalNumber}`
         }
         next()
     } catch (err) {
