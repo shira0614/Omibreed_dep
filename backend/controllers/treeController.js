@@ -7,7 +7,7 @@ const upload = multer({ dest: './uploads/' });
 
 module.exports = {
     addTree: async (req, res) => {
-        console.log('Request files:', req.file);
+        console.log('Request files:', req.file || req.files);
         console.log('Request body:', req.body);
 
         const local_tree = {
@@ -19,13 +19,21 @@ module.exports = {
 
         try {
             const tree = await Tree.create(local_tree)
-            if(req.file){
-                tree.image = {
+            // Gestione immagini multiple
+            if (Array.isArray(req.files) && req.files.length) {
+                tree.images = req.files.map(f => ({
+                    data: fs.readFileSync(f.path),
+                    contentType: f.mimetype
+                }));
+                await tree.save();
+                req.files.forEach(f => fs.existsSync(f.path) && fs.unlinkSync(f.path));
+            } else if (req.file) {
+                tree.images = [{
                     data: fs.readFileSync(req.file.path),
                     contentType: req.file.mimetype
-                };
+                }];
                 await tree.save()
-                fs.unlinkSync(req.file.path);
+                fs.existsSync(req.file.path) && fs.unlinkSync(req.file.path);
             } else {
                 await tree.save()
             }
@@ -45,12 +53,8 @@ module.exports = {
             }
 
             const treesWithImages = trees.map(tree => {
-                let imageUrl = null;
-                if (tree.image && tree.image.data) {
-                    const base64Image = tree.image.data.toString('base64');
-                    imageUrl = `data:${tree.image.contentType};base64,${base64Image}`;
-                }
-                return { ...tree._doc, imageUrl };
+                const imageUrls = (tree.images || []).map(img => `data:${img.contentType};base64,${img.data.toString('base64')}`);
+                return { ...tree._doc, imageUrls };
             });
 
             res.json(treesWithImages)
@@ -69,14 +73,9 @@ module.exports = {
             if(!tree) {
                 res.status(404).json({message: "Tree not found"})
             }
-            console.log('Image data:', tree.image && tree.image.data);
-            let imageUrl = null;
-            if (tree.image && tree.image.data) {
-                const base64Image = tree.image.data.toString('base64');
-                imageUrl = `data:${tree.image.contentType};base64,${base64Image}`;
-            }
-
-            res.json({ "tree": tree, "imageUrl": imageUrl });
+            console.log('Images count:', tree.images ? tree.images.length : 0);
+            const imageUrls = (tree.images || []).map(img => `data:${img.contentType};base64,${img.data.toString('base64')}`);
+            res.json({ "tree": tree, "imageUrls": imageUrls });
         } catch (err) {
             res.status(500).json({message: err.message})
         }
@@ -91,12 +90,8 @@ module.exports = {
                 res.status(404).json({message: "Replicas not found"})
             }
             const replicasWithImages = replicas.map(replica => {
-                let imageUrl = null;
-                if (replica.image && replica.image.data) {
-                    const base64Image = replica.image.data.toString('base64');
-                    imageUrl = `data:${replica.image.contentType};base64,${base64Image}`;
-                }
-                return { ...replica._doc, imageUrl };
+                const imageUrls = (replica.images || []).map(img => `data:${img.contentType};base64,${img.data.toString('base64')}`);
+                return { ...replica._doc, imageUrls };
             });
             res.json(replicasWithImages)
         } catch (err) {
@@ -108,24 +103,42 @@ module.exports = {
         try {
             const replica = await Replica.create({
                 treeId: req.body.treeId,
-                image: req.body.image,
-                sample: req.body.sample,
-                notes: req.body.notes
+                notes: req.body.notes,
+                diagnosticStatus: req.body.diagnosticStatus,
+                bacterialTitreCq: req.body.bacterialTitreCq,
+                samplingDate: req.body.samplingDate,
+                plantAgeYears: req.body.plantAgeYears,
+                timeSinceInfectionYears: req.body.timeSinceInfectionYears,
+                timeSinceInfectionMonths: req.body.timeSinceInfectionMonths,
+                timeSinceInfectionHours: req.body.timeSinceInfectionHours,
+                xylellaSubspecies: req.body.xylellaSubspecies,
+                xylellaSequencingType: req.body.xylellaSequencingType,
+                references: req.body.references
             })
             const tree = await Tree.findOne({_id: req.body.treeId})
             if (!tree) {
                 return res.status(404).json({message: "Tree not found"});
             }
-            if(req.file){
-                replica.image = {
+
+            // Gestione immagini multiple
+            if (Array.isArray(req.files) && req.files.length) {
+                replica.images = req.files.map(f => ({
+                    data: fs.readFileSync(f.path),
+                    contentType: f.mimetype
+                }));
+                await replica.save();
+                req.files.forEach(f => fs.existsSync(f.path) && fs.unlinkSync(f.path));
+            } else if (req.file) {
+                replica.images = [{
                     data: fs.readFileSync(req.file.path),
                     contentType: req.file.mimetype
-                };
+                }];
                 await replica.save();
-                fs.unlinkSync(req.file.path);
+                fs.existsSync(req.file.path) && fs.unlinkSync(req.file.path);
             } else {
                 await replica.save();
             }
+
             tree.replicas.push({ replicaUniqueId: replica.replicaUniqueId })
             await tree.save()
             res.json({"message": "replica inserita", "replica": replica, "id replica" : replica.replicaUniqueId, 'success': true})
@@ -150,4 +163,3 @@ module.exports = {
 
 
 }
-

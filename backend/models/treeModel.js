@@ -628,11 +628,6 @@ const treeSchema = new mongoose.Schema({
 	},
 	parent1: String,
 	parent2: String,
-	diagnosticStatus: {
-		type: String,
-		enum: ['H', 'X', 'NT']
-	},
-	bacterialTitreCq: Number,
 	supplierSampleId: String,
 	incrementalNumber: Number,
     replicas: [{
@@ -642,7 +637,10 @@ const treeSchema = new mongoose.Schema({
     infectionType: String,
     timestamp: Date,
     notes: String,
-    image: imageSchema,
+	images: {
+		type: [imageSchema],
+		default: []
+	},
 	lastReplicaId: Number,
 	lastCultivarId: Number
 })
@@ -706,16 +704,6 @@ treeSchema.pre('save', async function(next) {
         }
 
         if (this.isNew || this.isModified('cultivar') || this.isModified('seedlingId') || this.isModified('bacterialTitreCq') || this.isModified('diagnosticStatus') || this.isModified('cultivarOrSeedling')) {
-
-            if (!this.diagnosticStatus) {
-                if (typeof this.bacterialTitreCq === 'number') {
-                    if (this.bacterialTitreCq > 33) this.diagnosticStatus = 'H'
-                    else if (this.bacterialTitreCq < 33) this.diagnosticStatus = 'X'
-                    else this.diagnosticStatus = 'NT'
-                } else {
-                    this.diagnosticStatus = 'NT'
-                }
-            }
 
             if (typeof this.incrementalNumber !== 'number') {
                 const Tree = mongoose.model('Tree')
