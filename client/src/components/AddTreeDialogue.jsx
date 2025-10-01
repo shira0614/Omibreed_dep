@@ -1,12 +1,11 @@
 import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
-import { Typography, TextField, Fab } from '@mui/material';
+import { Typography, TextField } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
-// import Calendar from "./Calendar.jsx";
 import { useState, useRef, useEffect } from 'react';
 import { useMemo } from 'react';
 import Button from "@mui/material/Button";
@@ -31,7 +30,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function AddTreeDialogue(props) {
-    const [inoculated, setInoculated] = useState(true);
+    const [inoculated, setInoculated] = useState(false); // boolean fallback: false
     const [openSuccess, setOpenSuccess] = useState(false);
     const [openFail, setOpenFail] = useState(false);
     const formRef = useRef(null);
@@ -39,20 +38,20 @@ export default function AddTreeDialogue(props) {
 
     // Stato per "Taxonomy"
     const speciesMap = { Olive: 'Olea europaea', Almond: 'Prunus dulcis', Cherry: 'Prunus avium' };
-    const [speciesCommonName, setSpeciesCommonName] = useState('Olive');
-    const [speciesScientificName, setSpeciesScientificName] = useState(speciesMap['Olive']);
+    const [speciesCommonName, setSpeciesCommonName] = useState('Olive'); // menu fallback: first
+    const [speciesScientificName, setSpeciesScientificName] = useState(speciesMap['Olive']); // menu fallback: first
     const [scientificMode, setScientificMode] = useState('select'); // 'select' | 'custom'
     const isOlea = speciesScientificName === 'Olea europaea';
 
-    const [subspeciesDropdown, setSubspeciesDropdown] = useState('');
+    const [subspeciesDropdown, setSubspeciesDropdown] = useState('subsp. cuspidata'); // menu fallback: first
     const [subspeciesText, setSubspeciesText] = useState('');
-    const [variety, setVariety] = useState('');
-    const [cultivarOrSeedling, setCultivarOrSeedling] = useState('Cultivar');
+    const [variety, setVariety] = useState('var. europaea'); // menu (radio) fallback: first
+    const [cultivarOrSeedling, setCultivarOrSeedling] = useState('Cultivar'); // menu fallback: first
 
     // Sezione "Cultivar"
     const [cultivarName, setCultivarName] = useState('');
     const [cultivarCode, setCultivarCode] = useState('');
-    const [originCountry, setOriginCountry] = useState('');
+    const [originCountry, setOriginCountry] = useState('Italy'); // menu fallback: first
     const [cultivarList, setCultivarList] = useState([]);
 
     // Sezione "Seedling"
@@ -61,29 +60,30 @@ export default function AddTreeDialogue(props) {
     const [parent2, setParent2] = useState('');
     const [seedlingList, setSeedlingList] = useState([]);
 
-    // Nuovi campi comuni (Cultivar/Seedling)
-    const [collectionLocation, setCollectionLocation] = useState('');
-    const [xfResponse, setXfResponse] = useState('');
+    // (Cultivar/Seedling)
+    const [collectionLocation, setCollectionLocation] = useState('Almar'); // menu fallback: first
+    const [xfResponse, setXfResponse] = useState('HR'); // menu fallback: first
 
     // Sezione "Genetic characterization"
     const [dnaCode, setDnaCode] = useState('');
     const [dnaRepository, setDnaRepository] = useState('');
     const [foundingInstitution, setFoundingInstitution] = useState('');
     const [geneticSSRs, setGeneticSSRs] = useState('');
-    const [geneticSNPs, setGeneticSNPs] = useState(''); // 'Yes' | 'No' | ''
-    const [geneticMap, setGeneticMap] = useState('');   // 'Yes' | 'No' | ''
-    const [wgsAvailable, setWgsAvailable] = useState(''); // 'Yes' | 'No' | ''
-    const [stressType, setStressType] = useState('');   // enum come da schema
+    const [geneticSNPs, setGeneticSNPs] = useState('No'); // boolean fallback -> 'No'
+    const [geneticMap, setGeneticMap] = useState('No');   // boolean fallback -> 'No'
+    const [wgsAvailable, setWgsAvailable] = useState('No'); // boolean fallback -> 'No'
+    const [stressType, setStressType] = useState('Drought stress');   // menu fallback: first
 
     // Sezione "Plant location"
     const [plantCollectionName, setPlantCollectionName] = useState('');
     const [plantPositionInCollection, setPlantPositionInCollection] = useState('');
-    const [growthEnvironment, setGrowthEnvironment] = useState('');
+    const [growthEnvironment, setGrowthEnvironment] = useState('Experimental facility'); // menu fallback: first
     const [controlledFacilityName, setControlledFacilityName] = useState('');
     const [propagationYear, setPropagationYear] = useState('');
-    const [demarcatedArea, setDemarcatedArea] = useState('');
+    const [demarcatedArea, setDemarcatedArea] = useState('Xf-free zone'); // menu fallback: first
     const isControlledEnv = growthEnvironment === 'Experimental facility' || growthEnvironment === 'Greenhouse';
-    // Nuovi stati per Open field conditions
+
+    // Open field conditions
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
     const [country, setCountry] = useState('');
@@ -93,16 +93,16 @@ export default function AddTreeDialogue(props) {
     const [rowCode, setRowCode] = useState('');
     const [positionInRow, setPositionInRow] = useState('');
     const [yearOfPlanting, setYearOfPlanting] = useState('');
-    const [ancientPlant, setAncientPlant] = useState(''); // 'Yes' | 'No'
+    const [ancientPlant, setAncientPlant] = useState('No'); // boolean fallback -> 'No'
 
     // Sezione "Image"
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState('');
 
-    // Nuovi stati: “Altre informazioni”
-    const [agronomicPractice, setAgronomicPractice] = useState(''); // enum
-    const [expositionType, setExpositionType] = useState('');       // 'Natural' | 'Artificial'
-    const [inoculationType, setInoculationType] = useState('');     // 'Xf inoculated' | 'Mock inoculated'
+    // "Additional information"
+    const [agronomicPractice, setAgronomicPractice] = useState('Auto-rooted'); // menu fallback: first
+    const [expositionType, setExpositionType] = useState('Natural');       // menu (radio) fallback: first
+    const [inoculationType, setInoculationType] = useState('Xf inoculated'); // menu fallback quando visibile
 
     const years = useMemo(() => {
         const current = new Date().getFullYear();
@@ -112,7 +112,13 @@ export default function AddTreeDialogue(props) {
         return arr;
     }, []);
 
-    // Carica elenco cultivar dal backend quando serve (solo Olea + Cultivar)
+    // Default anni
+    useEffect(() => {
+        if (!propagationYear && years.length) setPropagationYear(years[0]);
+        if (!yearOfPlanting && years.length) setYearOfPlanting(years[0]);
+    }, [years]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    // Elenco cultivar dal backend
     useEffect(() => {
         if (isOlea && cultivarOrSeedling === 'Cultivar') {
             axios.get(`${BASE_URL}/api/trees/cultivars`, { withCredentials: true })
@@ -125,7 +131,15 @@ export default function AddTreeDialogue(props) {
         }
     }, [isOlea, cultivarOrSeedling]);
 
-    // Carica elenco seedling dal backend quando serve (solo Seedling)
+    // Default Cultivar
+    useEffect(() => {
+        if (isOlea && cultivarOrSeedling === 'Cultivar' && cultivarList.length && !cultivarName) {
+            setCultivarName(cultivarList[0].name);
+            setCultivarCode(cultivarList[0].code || '');
+        }
+    }, [cultivarList, isOlea, cultivarOrSeedling]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    // Elenco seedling dal backend
     useEffect(() => {
         if (cultivarOrSeedling === 'Seedling') {
             axios.get(`${BASE_URL}/api/trees/seedlings`, { withCredentials: true })
@@ -137,6 +151,16 @@ export default function AddTreeDialogue(props) {
                 .catch(() => {});
         }
     }, [cultivarOrSeedling]);
+
+    // Default seedling
+    useEffect(() => {
+        if (cultivarOrSeedling === 'Seedling' && seedlingList.length && !seedlingId) {
+            const first = seedlingList[0];
+            setSeedlingId(first.id);
+            setParent1(first.parent1 || '');
+            setParent2(first.parent2 || '');
+        }
+    }, [seedlingList, cultivarOrSeedling]); // eslint-disable-line react-hooks/exhaustive-deps
 
     // Auto-mapping nome comune -> scientifico
     useEffect(() => {
@@ -153,12 +177,30 @@ export default function AddTreeDialogue(props) {
         }
     }, [isOlea]);
 
-    // Aggiorna anteprima immagine
+    // Default per Olea
+    useEffect(() => {
+        if (isOlea) {
+            if (!subspeciesDropdown) setSubspeciesDropdown('subsp. cuspidata');
+            if (!variety) setVariety('var. europaea');
+        }
+    }, [isOlea]);
+
+    // Default condizionali per growth environment
+    useEffect(() => {
+        if (growthEnvironment === 'Experimental facility' || growthEnvironment === 'Greenhouse') {
+            if (!propagationYear && years.length) setPropagationYear(years[0]);
+        }
+        if (growthEnvironment === 'Open field') {
+            if (!demarcatedArea) setDemarcatedArea('Xf-free zone');
+            if (!yearOfPlanting && years.length) setYearOfPlanting(years[0]);
+        }
+    }, [growthEnvironment, years]);
+
+    // TODO anteprima immagine
     useEffect(() => {
         if (imageFile) {
             const objectUrl = URL.createObjectURL(imageFile);
             setImagePreview(objectUrl);
-            // Rilascia l'oggetto URL dopo un certo periodo (5 secondi)
             const timer = setTimeout(() => {
                 URL.revokeObjectURL(objectUrl);
             }, 5000);
@@ -171,20 +213,14 @@ export default function AddTreeDialogue(props) {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(formRef.current);
-        // rimuove invii non più necessari
-        // data.append('inoculated', inoculated);
-        // data.append('timestamp', date);
 
-        // Imposta forzatamente i valori controllati per aderire allo schema backend
         data.set('speciesCommonName', speciesCommonName);
         if (scientificMode === 'custom') {
-            // speciesScientificName arriva dal campo testo (già nel form), ma lo assicuriamo
             data.set('speciesScientificName', speciesScientificName || '');
         } else {
             data.set('speciesScientificName', speciesScientificName);
         }
 
-        // Subspecies: usa dropdown per Olea, altrimenti testo libero
         if (isOlea) {
             data.delete('subspecies'); // non inviare il testo libero
             if (subspeciesDropdown) data.set('subspeciesDropdown', subspeciesDropdown);
@@ -195,7 +231,7 @@ export default function AddTreeDialogue(props) {
 
         // Variety: solo per Olea
         if (isOlea && variety) {
-            data.set('variety', variety); // 'var. europaea' | 'var. sylvestris'
+            data.set('variety', variety);
         } else {
             data.delete('variety');
         }
@@ -221,7 +257,6 @@ export default function AddTreeDialogue(props) {
             if (parent2) data.set('parent2', parent2);
         }
 
-        // Nuovi campi: imposta solo se selezionati per aderire all'enum backend
         if (collectionLocation) data.set('collectionLocation', collectionLocation); else data.delete('collectionLocation');
         if (xfResponse) data.set('xfInfectionResponse', xfResponse); else data.delete('xfInfectionResponse');
 
@@ -231,7 +266,7 @@ export default function AddTreeDialogue(props) {
         if (foundingInstitution) data.set('foundingInstitution', foundingInstitution); else data.delete('foundingInstitution');
         if (geneticSSRs) data.set('geneticIdentificationSSRs', geneticSSRs); else data.delete('geneticIdentificationSSRs');
 
-        // Booleani: converti Yes/No -> 'true'/'false' per coercizione Mongoose
+        // Booleani
         if (geneticSNPs) data.set('geneticIdentificationSNPs', geneticSNPs === 'Yes' ? 'true' : 'false'); else data.delete('geneticIdentificationSNPs');
         if (geneticMap) data.set('geneticMapAvailable', geneticMap === 'Yes' ? 'true' : 'false'); else data.delete('geneticMapAvailable');
         if (wgsAvailable) data.set('resequencingWgsAvailable', wgsAvailable === 'Yes' ? 'true' : 'false'); else data.delete('resequencingWgsAvailable');
@@ -246,7 +281,6 @@ export default function AddTreeDialogue(props) {
             if (controlledFacilityName) data.set('controlledFacilityName', controlledFacilityName); else data.delete('controlledFacilityName');
             if (propagationYear) data.set('propagationYear', String(propagationYear)); else data.delete('propagationYear');
             data.delete('demarcatedArea');
-            // Elimina campi Open field se non pertinenti
             data.delete('latitude');
             data.delete('longitude');
             data.delete('country');
@@ -261,7 +295,6 @@ export default function AddTreeDialogue(props) {
             if (demarcatedArea) data.set('demarcatedArea', demarcatedArea); else data.delete('demarcatedArea');
             data.delete('controlledFacilityName');
             data.delete('propagationYear');
-            // Nuovi campi Open field
             if (latitude !== '') data.set('latitude', String(latitude)); else data.delete('latitude');
             if (longitude !== '') data.set('longitude', String(longitude)); else data.delete('longitude');
             if (country) data.set('country', country); else data.delete('country');
@@ -276,7 +309,6 @@ export default function AddTreeDialogue(props) {
             data.delete('controlledFacilityName');
             data.delete('propagationYear');
             data.delete('demarcatedArea');
-            // Elimina campi Open field se ambiente non selezionato
             data.delete('latitude');
             data.delete('longitude');
             data.delete('country');
@@ -289,7 +321,6 @@ export default function AddTreeDialogue(props) {
             data.delete('ancientPlant');
         }
 
-        // “Altre informazioni” -> nuovi campi
         if (agronomicPractice) data.set('agronomicManagementPractice', agronomicPractice); else data.delete('agronomicManagementPractice');
         if (expositionType) {
             data.set('typeOfExpositionToXfInfection', expositionType);
@@ -314,9 +345,6 @@ export default function AddTreeDialogue(props) {
                 }
             }
         }
-
-        // Debug
-        // for (let [key, value] of data.entries()) { console.log(`${key}:`, value); }
 
         axios.post(`${BASE_URL}/api/trees/addTree`, data, {
             withCredentials: true,

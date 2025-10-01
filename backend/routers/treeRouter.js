@@ -6,8 +6,6 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-
-// Usa un percorso assoluto e assicurati che la cartella esista
 const uploadDir = path.join(__dirname, '../uploads');
 fs.mkdirSync(uploadDir, { recursive: true });
 const upload = multer({ dest: uploadDir });
