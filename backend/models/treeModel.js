@@ -722,6 +722,14 @@ treeSchema.pre('save', async function(next) {
     }
 })
 
+treeSchema.statics.getCultivarNameToCode = function getCultivarNameToCode() {
+	return CULTIVAR_NAME_TO_CODE;
+};
+
+treeSchema.statics.getSeedlingIdToParents = function getSeedlingIdToParents() {
+	return SEEDLING_ID_TO_PARENTS;
+};
+
 const treeModel = mongoose.model('Tree', treeSchema)
 
 module.exports = treeModel

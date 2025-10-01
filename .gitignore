@@ -27,3 +27,4 @@ backend/.env
 client/.env
 backend/controllers/uploads
 uploads
+todo.md

@@ -1,8 +1,6 @@
 const Tree = require('../models/treeModel')
 const Replica = require('../models/replicaModel')
 const fs = require('fs');
-const multer = require("multer");
-const upload = multer({ dest: './uploads/' });
 
 
 module.exports = {
@@ -39,6 +37,7 @@ module.exports = {
             }
             res.json({"message": "Tree inserted", "tree": tree, "success": true})
         } catch (err) {
+            console.error('addTree error:', err);
             res.status(500).json({message: err.message, "success": false})
         }
     },
@@ -143,6 +142,7 @@ module.exports = {
             await tree.save()
             res.json({"message": "replica inserita", "replica": replica, "id replica" : replica.replicaUniqueId, 'success': true})
         } catch (err) {
+            console.error('addReplica error:', err);
             res.status(500).json({message: err.message})
         }
     },
@@ -159,7 +159,30 @@ module.exports = {
         } catch (err) {
             res.status(500).json({message: err.message})
         }
+    },
+
+    // Nuovo: elenco cultivar e codici per UI (dropdown + auto code)
+    getCultivarList: async (req, res) => {
+        try {
+            const mapping = Tree.getCultivarNameToCode();
+            const list = Object.entries(mapping).map(([name, code]) => ({ name, code }));
+            // opzionale: ordinamento alfabetico
+            list.sort((a, b) => a.name.localeCompare(b.name));
+            res.json({ success: true, cultivars: list });
+        } catch (err) {
+            res.status(500).json({ success: false, message: err.message });
+        }
+    },
+
+    // Nuovo: elenco Seedling con Parent1/Parent2 per UI (dropdown + auto parents)
+    getSeedlingList: async (req, res) => {
+        try {
+            const mapping = Tree.getSeedlingIdToParents();
+            const list = Object.entries(mapping).map(([id, parents]) => ({ id, parent1: parents.parent1, parent2: parents.parent2 }));
+            list.sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true, sensitivity: 'base' }));
+            res.json({ success: true, seedlings: list });
+        } catch (err) {
+            res.status(500).json({ success: false, message: err.message });
+        }
     }
-
-
 }
