@@ -19,6 +19,7 @@ module.exports = {
             const tree = await Tree.create(local_tree)
             // Gestione immagini multiple
             if (Array.isArray(req.files) && req.files.length) {
+                console.log('Uploading files count:', req.files.length);
                 tree.images = req.files.map(f => ({
                     data: fs.readFileSync(f.path),
                     contentType: f.mimetype
@@ -26,6 +27,7 @@ module.exports = {
                 await tree.save();
                 req.files.forEach(f => fs.existsSync(f.path) && fs.unlinkSync(f.path));
             } else if (req.file) {
+                console.log('Uploading single file');
                 tree.images = [{
                     data: fs.readFileSync(req.file.path),
                     contentType: req.file.mimetype
@@ -35,7 +37,9 @@ module.exports = {
             } else {
                 await tree.save()
             }
-            res.json({"message": "Tree inserted", "tree": tree, "success": true})
+            // Costruisci gli URL base64 per tutte le immagini (se presenti)
+            const imageUrls = (tree.images || []).map(img => `data:${img.contentType};base64,${img.data.toString('base64')}`);
+            res.json({"message": "Tree inserted", "tree": tree, "imageUrls": imageUrls, "success": true})
         } catch (err) {
             console.error('addTree error:', err);
             res.status(500).json({message: err.message, "success": false})
@@ -161,7 +165,6 @@ module.exports = {
         }
     },
 
-    // Nuovo: elenco cultivar e codici per UI (dropdown + auto code)
     getCultivarList: async (req, res) => {
         try {
             const mapping = Tree.getCultivarNameToCode();
@@ -174,7 +177,6 @@ module.exports = {
         }
     },
 
-    // Nuovo: elenco Seedling con Parent1/Parent2 per UI (dropdown + auto parents)
     getSeedlingList: async (req, res) => {
         try {
             const mapping = Tree.getSeedlingIdToParents();

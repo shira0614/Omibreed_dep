@@ -712,7 +712,7 @@ treeSchema.pre('save', async function(next) {
             }
 
             const idCode = this.cultivarCode || this.seedlingId || 'SEED'
-            const plantId = this.plantPositionInCollection || this.supplierPlantId || 'PLANT'
+            const plantId = this.supplierPlantId || 'PLANT'
             this.treeUniqueId = `${idCode}_${plantId}_${this.incrementalNumber}`
         }
         next()

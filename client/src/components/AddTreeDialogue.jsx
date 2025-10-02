@@ -1013,17 +1013,19 @@ export default function AddTreeDialogue(props) {
 
                             {/* Upload immagini multiplo */}
                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 3 }}>
-                                <TextField
-                                    type="file"
-                                    variant="outlined"
-                                    margin="normal"
-                                    name="images"
-                                    inputProps={{ multiple: true, accept: 'image/png,image/jpeg' }}
-                                    helperText="Accepted fomats: .jpg, .png. It is possible to select multiple images."
-                                    label="Select images"
-                                    InputLabelProps={{ shrink: true }}
-                                />
-                            </Box>
+                            <FormLabel id="upload-images-label">Upload images of the plant</FormLabel>
+                            <input
+                                id="images"
+                                name="images"
+                                type="file"
+                                multiple
+                                accept="image/png,image/jpeg"
+                                style={{ marginTop: 8 }}
+                            />
+                            <Typography variant="caption" color="text.secondary">
+                                Accepted formats: .jpg, .png. You can select multiple images.
+                            </Typography>
+                        </Box>
                         </Box>
                     </FormControl>
                 </Box>
