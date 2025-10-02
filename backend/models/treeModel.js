@@ -525,7 +525,6 @@ const treeSchema = new mongoose.Schema({
 		type: String,
 		enum: ['Olea europaea', 'Prunus dulcis', 'Prunus avium']
 	},
-	subspecies: String,
 	subspeciesDropdown: {
 		type: String,
 		enum: ['subsp. cuspidata', 'subsp. maroccana', 'subsp. cerasiformis', 'subsp. guanchica', 'subsp. laperrinei', 'subsp. europaea'],

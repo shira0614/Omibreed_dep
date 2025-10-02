@@ -49,15 +49,11 @@ export default function ColtHome() {
                             <TreeCard
                                 key={tree._id}
                                 _id={tree._id}
-                                scifiName={tree.specieNomeScientifico}
-                                commonName={tree.specieNomeComune}
-                                subSpecie={tree.sottospecie}
-                                cultivar={tree.cultivar}
-                                inoculated={tree.inoculated}
-                                notes={tree.notes}
-                                replicas={tree.replicas}
-                                date={tree.timestamp}
-                                image={tree.imageUrl}
+                                scifiName={tree.speciesScientificName}
+                                commonName={tree.speciesCommonName}
+                                subSpecie={tree.subspeciesDropdown}
+                                growthEnvironment={tree.growthEnvironment}
+                                image={Array.isArray(tree.imageUrls) && tree.imageUrls.length ? tree.imageUrls[0] : undefined}
                                 treeUniqueId={tree.treeUniqueId}
                             />
                         )

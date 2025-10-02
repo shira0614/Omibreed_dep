@@ -15,6 +15,13 @@ export default function TreeCard(props) {
         navigate(`/${props._id}`);
     }
 
+    const sciName = props.speciesScientificName ?? props.scifiName ?? '';
+    const commonName = props.speciesCommonName ?? props.commonName ?? '';
+    const subspec = props.subspeciesDropdown ?? props.subSpecie ?? props.subspecies ?? '';
+    const growthEnv = props.growthEnvironment ?? '';
+
+    const imageSrc = props.image ?? (Array.isArray(props.imageUrls) ? props.imageUrls[0] : undefined);
+
     return (
         <Card sx={{
             display: 'flex',
@@ -26,31 +33,29 @@ export default function TreeCard(props) {
         }}>
             <CardActionArea onClick={handleClick}>
                 <Box sx={{ display: 'flex', flexDirection: 'column',
-                    width: '100%', flex: '1 0', alignItems: 'flex-center', justifyContent: 'flex-start'}}>
+                    width: '100%', flex: '1 0', alignItems: 'center', justifyContent: 'flex-start'}}>
                     <CardContent sx={{ flex: '1' }}>
                         <Typography gutterBottom variant="h5" component="div">
                             {props.treeUniqueId}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            {props.scifiName}, {props.commonName}, {props.subSpecie}
+                            {sciName}{commonName ? `, ${commonName}` : ''}{subspec ? `, ${subspec}` : ''}
                         </Typography>
-                        <Typography sx={{ mt: 1}}>Data di nascita: {props.date}</Typography>
+                        <Typography sx={{ mt: 1}}>Growth Environment: {growthEnv || '—'}</Typography>
                     </CardContent>
                 </Box>
             </CardActionArea>
             {
-                props.image ? <CardMedia
+                imageSrc ? <CardMedia
                     component="img"
                     alt="plant image"
-                    objectFit='contain'
-                    sx={{ display: 'flex', width: 250, flex: '0 1', alignItems: 'flex-end' }}
-                    image = {props.image}
+                    sx={{ display: 'flex', width: 250, flex: '0 1', alignItems: 'flex-end', objectFit: 'contain' }}
+                    image={imageSrc}
                 /> : <CardMedia
                     component="img"
                     alt="logo"
-                    objectFit='contain'
-                    sx={{ width: 200, height: 200, m: 2 }}
-                    image = {logo}
+                    sx={{ width: 200, height: 200, m: 2, objectFit: 'contain' }}
+                    image={logo}
                 />
             }
         </Card>
