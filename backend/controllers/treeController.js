@@ -157,7 +157,7 @@ module.exports = {
                 _id: req.params.treeId
             })
             if(!tree) {
-                res.status(404).json({message: "Tree not found"})
+                return res.status(404).json({message: "Tree not found"})
             }
             res.json({message: "Tree deleted", "success": true})
         } catch (err) {

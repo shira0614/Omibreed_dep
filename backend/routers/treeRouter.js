@@ -23,6 +23,6 @@ router.post('/newReplica', upload.any(), treeController.addReplica)
 router.get('/:treeId/replicas', treeController.getReplicas)
 router.get('/:treeId', treeController.getTree)
 router.get('/', treeController.getTrees)
-
+router.delete('/:treeId', treeController.deleteTree)
 
 module.exports = router
