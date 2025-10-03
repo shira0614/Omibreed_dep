@@ -104,16 +104,34 @@ module.exports = {
 
     addReplica: async (req, res) => {
         try {
+            // parsing Cq a numero (2 decimali) se presente
+            const cqRaw = req.body.bacterialTitreCq;
+            let parsedCq = undefined;
+            if (cqRaw !== undefined && cqRaw !== null && cqRaw !== '') {
+                const n = parseFloat(cqRaw);
+                if (!Number.isNaN(n)) {
+                    parsedCq = Math.round(n * 100) / 100;
+                }
+            }
+
             const replica = await Replica.create({
                 treeId: req.body.treeId,
                 notes: req.body.notes,
                 diagnosticStatus: req.body.diagnosticStatus,
-                bacterialTitreCq: req.body.bacterialTitreCq,
+                bacterialTitreCq: parsedCq,
                 samplingDate: req.body.samplingDate,
+                sampleId: req.body.sampleId,
                 plantAgeYears: req.body.plantAgeYears,
                 timeSinceInfectionYears: req.body.timeSinceInfectionYears,
                 timeSinceInfectionMonths: req.body.timeSinceInfectionMonths,
                 timeSinceInfectionHours: req.body.timeSinceInfectionHours,
+
+                // Nuovi campi
+                plantDiameterCm: req.body.plantDiameterCm,
+                shootDiebackSymptoms: req.body.shootDiebackSymptoms,
+                sampledTissue: req.body.sampledTissue,
+                branch: req.body.branch,
+
                 xylellaSubspecies: req.body.xylellaSubspecies,
                 xylellaSequencingType: req.body.xylellaSequencingType,
                 references: req.body.references

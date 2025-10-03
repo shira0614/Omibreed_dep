@@ -23,6 +23,7 @@ const replicaSchema = new mongoose.Schema({
         default: []
     },
     notes: String,
+    sampleId: String,
     diagnosticStatus: {
         type: String,
         enum: ['H', 'X', 'NT']
@@ -66,6 +67,42 @@ const replicaSchema = new mongoose.Schema({
         },
         required: false
     },
+
+    // Nuovi campi richiesti
+    plantDiameterCm: {
+        type: Number,
+        min: 0,
+        validate: {
+            validator: Number.isInteger,
+            message: 'plantDiameterCm must be an integer (cm)'
+        },
+        required: false
+    },
+    shootDiebackSymptoms: {
+        type: String,
+        enum: ['No desiccation', 'Mild desiccation', 'Severe desiccation'],
+        required: false
+    },
+    sampledTissue: {
+        type: String,
+        enum: [
+            'Leaf',
+            'Xylem',
+            'Cortex',
+            'Entire herbaceous stem',
+            'Entire lignified stem',
+            'Xylem sap',
+            'Canopy of ancient plant',
+            'Sucker of ancient plant'
+        ],
+        required: false
+    },
+    branch: {
+        type: String,
+        trim: true,
+        required: false
+    },
+
     xylellaSubspecies: {
         type: String,
         enum: allowedSubspecies,
